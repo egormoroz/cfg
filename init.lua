@@ -282,9 +282,9 @@ require('rust-tools').setup({
   },
 })
 
--- vim.opt.updatetime = 300
+vim.opt.updatetime = 300
 -- vim.cmd('autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
--- vim.cmd('autocmd CursorHold * lua vim.diagnostic.open_float()')
+vim.cmd('autocmd CursorHold * lua vim.diagnostic.open_float()')
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
