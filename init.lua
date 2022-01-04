@@ -18,7 +18,6 @@ require('packer').startup(function()
   use 'tpope/vim-fugitive' -- Git commands in nvim
   use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
-  use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
   use 'joshdick/onedark.vim' -- Theme inspired by Atom
@@ -89,6 +88,10 @@ vim.g.lightline = {
 vim.api.nvim_set_keymap('', '<C-n>', ':NERDTree<CR>', { noremap = true })
 vim.api.nvim_set_keymap('', '<C-t>', ':NERDTreeToggle<CR>', { noremap = true })
 vim.api.nvim_set_keymap('', '<leader>r', ':NERDTreeFind<CR>', { noremap = true })
+
+vim.api.nvim_set_keymap('', '<F2>', ':mksession! ~/.vim_session <CR>', { noremap = true })
+vim.api.nvim_set_keymap('', '<F3>', ':source ~/.vim_session <CR>', { noremap = true })
+
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -234,6 +237,34 @@ nvim_lsp.pylsp.setup({
     capabilities = capabilities,
 })
 
+nvim_lsp.clangd.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+})
+
+nvim_lsp.sumneko_lua.setup({
+    settings = {
+        Lua = {
+            runtime = {
+                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                version = 'LuaJIT',
+            },
+            diagnostics = {
+                -- Get the language server to recognize the `vim` global
+                globals = {'vim'},
+            },
+            workspace = {
+                -- Make the server aware of Neovim runtime files
+                library = vim.api.nvim_get_runtime_file("", true),
+            },
+            -- Do not send telemetry data containing a randomized but unique identifier
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+})
+
 require('rust-tools').setup({
   tools = {
     autoSetHints = true,
@@ -251,8 +282,9 @@ require('rust-tools').setup({
   },
 })
 
-vim.opt.updatetime = 300
-vim.cmd('autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
+-- vim.opt.updatetime = 300
+-- vim.cmd('autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()')
+-- vim.cmd('autocmd CursorHold * lua vim.diagnostic.open_float()')
 
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
@@ -306,7 +338,6 @@ cmp.setup {
 
 vim.cmd[[
     cd ~/
-    autocmd VimEnter * NERDTree
     aug CSV_Editing
     		au!
     		au BufRead,BufWritePost *.csv :%ArrangeColumn
