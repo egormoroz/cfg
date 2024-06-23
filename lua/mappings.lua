@@ -1,0 +1,92 @@
+return {
+    mappings = {
+        {
+            key = '<leader>q',
+            mapping = '<cmd>bd<CR>',
+            descr = 'Close current buffer'
+        },
+        {
+            key = '<leader>th',
+            mapping = '<cmd>ToggleTerm direction=horizontal<CR>',
+            descr = 'Open horizontal terminal'
+        },
+        {
+            key = '<leader>tv',
+            mapping = '<cmd>ToggleTerm direction=vertical<CR>',
+            descr = 'Open vertical terminal'
+        },
+        {
+            key = '<leader>tf',
+            mapping = '<cmd>ToggleTerm direction=float<CR>',
+            descr = 'Open floating terminal'
+        },
+        {
+            key = '<C-t>',
+            mapping = ':ToggleTerm<CR>',
+            mode = 'n',
+        },
+        {
+            key = '<C-t>',
+            mapping = '<C-\\><C-n>:ToggleTerm<CR>',
+            mode = 't',
+        },
+        {
+            key = '<Esc>',
+            mapping = '<C-\\><C-n>',
+            mode = 't',
+        },
+        {
+            key = '<C-n>',
+            mapping = '<cmd>NERDTreeToggle<CR>',
+            descr ='Toggle NERDTree'
+        },
+        {
+            key = '<leader>t',
+            mapping = '<cmd>NERDTreeFind<CR>',
+            descr = 'Find current file in NERDTree'
+        },
+        {
+            key = '<leader>f?',
+            mapping = [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]]
+        },
+        {
+            key = '<leader>ff',
+            mapping = [[<cmd>lua require('telescope.builtin').find_files({previewer=false})<CR>]]
+        },
+        {
+            key = '<leader>fb',
+            mapping = [[<cmd>lua require('telescope.builtin').buffers()<CR>]]
+        },
+        {
+            key = '<leader>fg',
+            mapping = [[<cmd>lua require('telescope.builtin').live_grep()<CR>]]
+        },
+        {
+            key = '<leader>fs',
+            mapping = [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]]
+        },
+    },
+
+    opts = {
+        mode = 'n',
+        silent = true,
+    },
+
+    -- TODO: add descriptions
+    lsp_mappings = {
+        ['gD'] = { '<cmd>lua vim.lsp.buf.declaration()<CR>' },
+        ['gd'] = { '<cmd>lua vim.lsp.buf.definition()<CR>' },
+        ['K'] = { '<cmd>lua vim.lsp.buf.hover()<CR>' },
+        ['gi'] = { '<cmd>lua vim.lsp.buf.implementation()<CR>' },
+        ['<C-k>'] = { '<cmd>lua vim.lsp.buf.signature_help()<CR>' },
+        ['<leader>D'] = { '<cmd>lua vim.lsp.buf.type_definition()<CR>' },
+        ['<leader>rn'] = { '<cmd>lua vim.lsp.buf.rename()<CR>' },
+        ['gr'] = { '<cmd>lua vim.lsp.buf.references()<CR>' },
+        ['ga'] = { '<cmd>lua vim.lsp.buf.code_action()<CR>' },
+        ['<leader>e'] = { '<cmd>lua vim.diagnostic.open_float()<CR>' },
+        ['g['] = { '<cmd>lua vim.diagnostic.goto_prev()<CR>' },
+        ['g]'] = { '<cmd>lua vim.diagnostic.goto_next()<CR>' },
+        ['<leader>q'] = { '<cmd>lua vim.diagnostic.setloclist()<CR>' },
+        ['<leader>so'] = { [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]] },
+    },
+}
