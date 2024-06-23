@@ -61,8 +61,16 @@ require('packer').startup(function(use)
     end
 end)
 
+local shell = nil
+if vim.uv.os_uname().sysname ~= 'Linux' then
+    shell = 'powershell'
+end
+
+print()
+
+
 require('toggleterm').setup {
-    shell = 'powershell',
+    shell = shell,
     size = function(term)
         if term.direction == 'vertical' then
             return vim.o.columns * 0.5
@@ -74,14 +82,14 @@ require('toggleterm').setup {
 
 require('nvim-treesitter.configs').setup {
     highlight = { enable = true },
-    ensure_installed = { 'c', 'lua', 'cpp', 'python', 'vim', 'vimdoc' },
+    ensure_installed = { 'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc' },
 }
 
 require('telescope').load_extension('fzf')
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { 'lua_ls', 'clangd', 'pyright' },
+    ensure_installed = { 'lua_ls', 'clangd', 'pyright', 'gopls' },
 }
 
 require("ibl").setup()
