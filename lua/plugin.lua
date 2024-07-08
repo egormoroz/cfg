@@ -81,7 +81,10 @@ require('toggleterm').setup {
 }
 
 require('nvim-treesitter.configs').setup {
-    highlight = { enable = true },
+    highlight = { 
+        enable = true,
+        additional_vim_regex_highlighting = { "python" },
+    },
     ensure_installed = { 'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc' },
 }
 
