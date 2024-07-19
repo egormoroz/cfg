@@ -92,7 +92,7 @@ require('telescope').load_extension('fzf')
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { 'lua_ls', 'clangd', 'pyright', },
+    ensure_installed = { 'lua_ls', 'clangd', 'basedpyright', },
 }
 
 require("ibl").setup()
