@@ -54,6 +54,8 @@ require('packer').startup(function(use)
 
     use 'L3MON4D3/LuaSnip'
 
+    use 'Vimjas/vim-python-pep8-indent'
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
@@ -62,11 +64,9 @@ require('packer').startup(function(use)
 end)
 
 local shell = nil
-if vim.uv.os_uname().sysname ~= 'Linux' then
+if jit.os == 'Windows' then
     shell = 'powershell'
 end
-
-print()
 
 
 require('toggleterm').setup {
@@ -92,7 +92,7 @@ require('telescope').load_extension('fzf')
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { 'lua_ls', 'clangd', 'pyright', 'gopls' },
+    ensure_installed = { 'lua_ls', 'clangd', 'pyright', },
 }
 
 require("ibl").setup()

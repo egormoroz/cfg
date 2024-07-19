@@ -30,7 +30,6 @@ vim.cmd[[
     colorscheme gruvbox
 ]]
 
-
 for _, m in pairs(M.mappings) do
     local mode = M.opts.mode
     if m.mode ~= nil then

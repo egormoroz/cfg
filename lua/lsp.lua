@@ -1,6 +1,6 @@
 local setup = function(M)
     local on_attach = function(_, bufnr)
-        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         for key, mapping in pairs(M.lsp_mappings) do
             vim.api.nvim_buf_set_keymap(bufnr, 'n',
                 key, mapping[1],  { noremap = true, silent = true })
@@ -10,13 +10,47 @@ local setup = function(M)
     local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     local lspconfig = require 'lspconfig'
-    local servers = { 'clangd', 'pyright', 'rust_analyzer', 'gopls' }
+    local servers = { 'clangd', 'rust_analyzer', 'gopls' }
     for _, server in pairs(servers) do
         lspconfig[server].setup({
             on_attach = on_attach,
             capabilities = capabilities,
         })
     end
+
+    lspconfig["basedpyright"].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        settings = {
+            basedpyright = {
+                analysis = {
+                    diagnosticSeverityOverrides = {
+                        -- pyright cant properly infer the types, so don't bother
+                        reportUnknownVariableType = "none",
+                        reportUnknownMemberType = "none",
+                        reportUnknownArgumentType = "none",
+                        reportMissingParameterType = "none",
+                        reportUnknownParameterType = "none",
+
+                        --
+                        reportOptionalMemberAccess = "none",
+
+                        -- retarded
+                        reportPrivateLocalImportUsage = "none",
+                        reportUnknownLambdaType = "none",
+                        reportAny = "none",
+
+                        -- just annoying
+                        reportUnusedCallResult = "none",
+                        reportMissingTypeArgument = "none",
+
+                        -- i use older python
+                        reportImplicitOverride = "none",
+                    }
+                }
+            }
+        }
+    })
 
     lspconfig.lua_ls.setup({
       on_attach = on_attach,
