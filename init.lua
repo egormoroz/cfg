@@ -9,13 +9,15 @@ opt.shiftwidth = 4
 opt.tabstop = 4
 opt.number = true
 opt.expandtab = true
+opt.relativenumber = true
 
 -- currently sometimes neovim causes THE WHOLE FUCKING DE TO HANG FOREVER
 -- It happens on KDE, different ubuntu versions, different kernels versions
 -- Current suspects: LSP and swap. The LSP is more likely, but I don't want to turn it off :-(
 -- So for now let's try to rule out the swap file
 -- UPDATE: no issues thus far, seems to werk
-vim.opt.swapfile = false
+-- UPDATE2: just had kde die on me with this off...
+vim.opt.swapfile = true
 
 opt.undofile = true
 

@@ -65,6 +65,14 @@ return {
             key = '<leader>fs',
             mapping = [[<cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]]
         },
+        {
+            key = '<Enter>',
+            mapping = 'o<ESC>'
+        },
+        {
+            key = '<S-Enter>',
+            mapping = 'O<ESC>'
+        },
     },
 
     opts = {
@@ -87,6 +95,9 @@ return {
         ['g['] = { '<cmd>lua vim.diagnostic.goto_prev()<CR>' },
         ['g]'] = { '<cmd>lua vim.diagnostic.goto_next()<CR>' },
         ['<leader>q'] = { '<cmd>lua vim.diagnostic.setloclist()<CR>' },
-        ['<leader>so'] = { [[<cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]] },
+
+        ['<leader>lr'] = { '<cmd>Telescope lsp_references<CR>' },
+        ['<leader>ls'] = { '<cmd>Telescope lsp_document_symbols<CR>' },
+        ['<leader>ld'] = { '<cmd>Telescope diagnostics<CR>' },
     },
 }
