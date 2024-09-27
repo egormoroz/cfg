@@ -56,6 +56,22 @@ require('packer').startup(function(use)
 
     use 'Vimjas/vim-python-pep8-indent'
 
+    use {
+      "kndndrj/nvim-dbee",
+      requires = {
+        "MunifTanjim/nui.nvim",
+      },
+      run = function()
+        -- Install tries to automatically detect the install method.
+        -- if it fails, try calling it with one of these parameters:
+        --    "curl", "wget", "bitsadmin", "go"
+        require("dbee").install()
+      end,
+      config = function()
+        require("dbee").setup(--[[optional config]])
+      end
+    }
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
@@ -96,3 +112,5 @@ require("mason-lspconfig").setup {
 }
 
 require("ibl").setup()
+
+require('dbee').setup()

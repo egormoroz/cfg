@@ -1,6 +1,5 @@
 local setup = function(M)
     local on_attach = function(_, bufnr)
-        -- vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         for key, mapping in pairs(M.lsp_mappings) do
             vim.api.nvim_buf_set_keymap(bufnr, 'n',
                 key, mapping[1],  { noremap = true, silent = true })

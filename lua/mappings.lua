@@ -70,8 +70,24 @@ return {
             mapping = 'o<ESC>'
         },
         {
-            key = '<S-Enter>',
+            key = '<A-Enter>',
             mapping = 'O<ESC>'
+        },
+        {
+            key = '<leader>do',
+            mapping = [[<cmd>lua require('dbee').open()<CR>]]
+        },
+        {
+            key = '<leader>dc',
+            mapping = [[<cmd>lua require('dbee').close()<CR>]]
+        },
+        {
+            key = '<leader>dd',
+            mapping = [[<cmd>lua require('dbee').toggle()<CR>]]
+        },
+        {
+            key = '<leader>de',
+            mapping = [[<cmd>lua require('dbee').execute()<CR>]]
         },
     },
 
