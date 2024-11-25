@@ -72,6 +72,8 @@ require('packer').startup(function(use)
       end
     }
 
+    use 'lewis6991/gitsigns.nvim'
+
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if packer_bootstrap then
@@ -84,6 +86,7 @@ if jit.os == 'Windows' then
     shell = 'powershell'
 end
 
+require('gitsigns').setup()
 
 require('toggleterm').setup {
     shell = shell,
@@ -105,6 +108,14 @@ require('nvim-treesitter.configs').setup {
 }
 
 require('telescope').load_extension('fzf')
+
+local actions = require('telescope.actions')
+require('telescope').setup{
+    defaults = {
+        mappings = require('mappings').make_telescope_mappings(actions)
+    }
+}
+
 
 require("mason").setup()
 require("mason-lspconfig").setup {

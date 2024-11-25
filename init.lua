@@ -1,7 +1,7 @@
 require 'plugin'
 local M = require('mappings')
 require('lsp').setup(M)
-
+-- require('language').setup()
 
 local opt = vim.opt
 opt.clipboard = 'unnamed,unnamedplus'
@@ -39,6 +39,8 @@ for _, m in pairs(M.mappings) do
     end
     vim.keymap.set(mode, m.key, m.mapping, { silent = M.opts.silent })
 end
+
+M.apply_manual()
 
 print('config load3d')
 

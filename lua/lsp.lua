@@ -9,13 +9,19 @@ local setup = function(M)
     local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     local lspconfig = require 'lspconfig'
-    local servers = { 'clangd', 'rust_analyzer', 'gopls' }
+    local servers = { 'rust_analyzer', 'gopls' }
     for _, server in pairs(servers) do
         lspconfig[server].setup({
             on_attach = on_attach,
             capabilities = capabilities,
         })
     end
+
+    lspconfig['clangd'].setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        filetypes = { "c", "cpp", "objc", "objcpp", "cuda", },
+    })
 
     lspconfig["basedpyright"].setup({
         on_attach = on_attach,
