@@ -51,6 +51,8 @@ map('n', '<leader>fg', '<cmd>Telescope live_grep<CR>',
   { desc = 'telescope live grep' })
 map('n', '<leader>fb', '<cmd>Telescope buffers<CR>',
   { desc = 'telescope find buffers' })
+map('n', '<leader>ff', '<cmd>Telescope find_files<CR>',
+  { desc = 'telescope find files' })
 map('n', '<leader>f?', '<cmd>Telescope oldfiles<CR>',
   { desc = 'telescope find oldfiles' })
 map('n', '<leader>fs', '<cmd>Telescope current_buffer_fuzzy_find<CR>',
