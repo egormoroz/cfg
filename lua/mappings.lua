@@ -9,7 +9,7 @@ map('n', '<Enter>', function()
   end
 end, { expr = true, desc = "Insert line below" })
 
-map('n', '<A-Enter>', function()
+map('n', '<leader><Enter>', function()
   if vim.bo.modifiable then
     return "O<Esc>"
   else
@@ -30,6 +30,8 @@ map('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal<CR>',
   { desc = 'open horizontal terminal' })
 map('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical<CR>',
   { desc = 'open vertical terminal' })
+map('n', '<leader>tf', ':ToggleTerm direction=float<CR>',
+  { desc = 'open floating terminal' })
 map({'n', 'i'}, '<C-t>', ':ToggleTerm direction=float<CR>',
   { desc = 'open floating terminal' })
 
