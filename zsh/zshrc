@@ -1,0 +1,14 @@
+alias lg=lazygit
+alias v=nvim
+
+LFCD="$HOME/.config/lf/lfcd.sh"
+if [ -f "$LFCD" ]; then
+    source "$LFCD"
+fi
+
+tabs -4
+export MANPAGER='nvim +Man!'
+
+EDITOR='nvim'
+
+bindkey '^j' autosuggest-accept
