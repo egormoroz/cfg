@@ -10,14 +10,10 @@ tel.setup {
       }
     }
   },
-  -- extensions = {
-  --   file_browser = {
-  --     mappings = {
-  --       i = {
-  --         ["<C-m>"] = current_bufr_dir
-  --       },
-  --     },
-  --   },
-  -- },
+  extensions = {
+    file_browser = {
+      respect_gitignore = false,
+    },
+  },
 }
 tel.load_extension('fzf')

@@ -50,13 +50,26 @@ capabilities.textDocument.completion.completionItem = {
 }
 
 local lspconfig = require 'lspconfig'
-local servers = { 'gopls' }
-for _, server in pairs(servers) do
-  lspconfig[server].setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-  }
-end
+
+lspconfig['gopls'].setup{
+  --[[ settings = {
+    gopls = {
+      analyses = {
+        unusedparams = true,
+        unusedvariables = true,
+        shadow = true,
+        unusedwrite = true,
+        useany = true,
+      },
+      staticcheck = true,
+      gofumpt = true,
+      usePlaceholders = true,
+      experimentalPostfixCompletions = true,
+    },
+  }, ]]
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
 
 lspconfig['clangd'].setup({
   on_attach = on_attach,

@@ -1,6 +1,6 @@
 return {
   ensure_installed = {
-    'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc', 'sql'
+    'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc', 'sql', 'proto'
   },
 
   highlight = {
