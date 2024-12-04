@@ -9,6 +9,6 @@ fi
 tabs -4
 export MANPAGER='nvim +Man!'
 
-EDITOR='nvim'
+export EDITOR='nvim'
 
 bindkey '^j' autosuggest-accept
