@@ -34,7 +34,7 @@ return {
     'akinsho/toggleterm.nvim',
     version = '*',
     opts = require 'plugins.configs.toggleterm',
-    cmd = { 'ToggleTerm' },
+    cmd = { 'ToggleTerm', 'TermExec ' },
   },
 
   {
@@ -155,7 +155,6 @@ return {
 
   {
     "kndndrj/nvim-dbee",
-    cmd = 'Dbee',
     dependencies = {
       "MunifTanjim/nui.nvim",
     },

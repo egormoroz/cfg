@@ -24,6 +24,8 @@ map('n', '<leader>wl', '<C-w>3w', { desc = 'nav to window 3' })
 map('n', '<leader>w;', '<C-w>4w', { desc = 'nav to window 4' })
 map('n', '<leader>wq', '<C-w>c', { desc = 'close cur window' })
 map('n', '<leader>wo', '<C-w>o', { desc = 'close other windows' })
+map('n', '<leader>ws', '<C-w>s', { desc = 'horizontal split' })
+map('n', '<leader>wv', '<C-w>v', { desc = 'vertical split' })
 
 -- toggleterm
 map('n', '<leader>th', '<cmd>ToggleTerm direction=horizontal<CR>',
