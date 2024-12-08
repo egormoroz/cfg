@@ -32,5 +32,5 @@
   (interpreted_string_literal_content)
   (raw_string_literal_content)
 ] @injection.content
-  (#match? @injection.content "(SELECT|select|INSERT|insert|UPDATE|update|DELETE|delete|CREATE|create|ALTER|alter|DROP|drop|TRUNCATE|truncate|WITH|with|MERGE|merge).*(FROM|from|INTO|into|VALUES|values|SET|set|TABLE|table)|GROUP BY|group by|ORDER BY|order by|HAVING|having|JOIN|join|UNION|union|PRIMARY KEY|primary key|FOREIGN KEY|foreign key|CONSTRAINT|constraint|INDEX|index|ADD COLUMN|add column|DROP COLUMN|drop column|ALTER COLUMN|alter column|BEGIN|begin|COMMIT|commit|ROLLBACK|rollback")
+  (#match? @injection.content "(SELECT|select|INSERT|insert|UPDATE|update|DELETE|delete|CREATE|create|ALTER|alter|DROP|drop|TRUNCATE|truncate|WITH|with|MERGE|merge).*(FROM|from|INTO|into|VALUES|values|SET|set|TABLE|table)|GROUP BY|group by|ORDER BY|order by|HAVING|having|JOIN|join|UNION|union|PRIMARY KEY|primary key|FOREIGN KEY|foreign key|CONSTRAINT|constraint|INDEX|index|ADD COLUMN|add column|DROP COLUMN|drop column|ALTER COLUMN|alter column|BEGIN|begin|COMMIT|commit|ROLLBACK|rollback|TRUNCATE|truncate")
   (#set! injection.language "sql"))

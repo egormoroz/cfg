@@ -21,6 +21,15 @@ return {
     opts = {},
   },
 
+  {
+    'nvim-lualine/lualine.nvim',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+      'ray-x/lsp_signature.nvim'
+    },
+    opts = require 'plugins.configs.lualine',
+  },
+
   -- load lazily
   { 'nvim-lua/plenary.nvim', lazy = true },
 
@@ -165,4 +174,22 @@ return {
       require("dbee").setup()
     end,
   },
+
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {
+      bind = true,
+      toggle_key = '<C-j>',
+      hint_prefix = {
+          above = "↙ ",
+          current = "← ",
+          below = "↖ "
+      },
+      toggle_key_flip_floatwin_setting = true,
+    },
+    config = function(_, opts)
+      require'lsp_signature'.setup(opts)
+    end,
+  }
 }

@@ -13,6 +13,7 @@ autocmd("BufWritePost", {
   pattern = "*.go",
   callback = function()
   vim.cmd("silent !go fmt %")
+  vim.cmd("silent !goimports -w %")
   end
 })
 

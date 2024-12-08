@@ -2,8 +2,12 @@ local map = vim.keymap.set
 
 local on_attach = function(_, bufnr)
   local function opts(desc)
-    return { buffer = bufnr, desc = 'LSP ' .. desc }
+    return { buffer = bufnr, desc = 'LSP ' .. desc, noremap = true }
   end
+
+  -- if client.server_capabilities.inlayHintProvider then
+  --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+  -- end
 
   map('n', 'gD', vim.lsp.buf.declaration, opts 'go to decl')
   map('n', 'gd', vim.lsp.buf.definition, opts 'go to def')
@@ -18,7 +22,7 @@ local on_attach = function(_, bufnr)
   map('n', '<leader>rn', vim.lsp.buf.rename, opts 'rename symbol')
 
   map('n', 'K', vim.lsp.buf.hover, opts 'show hover info')
-  map('n', '<C-k>', vim.lsp.buf.signature_help, opts 'show sig help')
+  map({'n', 'i'}, '<C-K>', vim.lsp.buf.signature_help, opts 'show sig help')
 
   map('n', '<leader>e', vim.diagnostic.open_float, opts 'expand diagnostic')
 
@@ -52,7 +56,7 @@ capabilities.textDocument.completion.completionItem = {
 local lspconfig = require 'lspconfig'
 
 lspconfig['gopls'].setup{
-  --[[ settings = {
+  settings = {
     gopls = {
       analyses = {
         unusedparams = true,
@@ -63,10 +67,9 @@ lspconfig['gopls'].setup{
       },
       staticcheck = true,
       gofumpt = true,
-      usePlaceholders = true,
       experimentalPostfixCompletions = true,
     },
-  }, ]]
+  },
   on_attach = on_attach,
   capabilities = capabilities,
 }
