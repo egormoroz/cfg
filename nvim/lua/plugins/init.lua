@@ -191,5 +191,15 @@ return {
     config = function(_, opts)
       require'lsp_signature'.setup(opts)
     end,
-  }
+  },
+
+  {
+    'SmiteshP/nvim-navic',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'nvim-lualine/lualine.nvim',
+    },
+    event = 'LspAttach',
+    opts = { highlight = true, },
+  },
 }

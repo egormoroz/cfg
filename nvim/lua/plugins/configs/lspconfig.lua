@@ -1,13 +1,11 @@
 local map = vim.keymap.set
 
-local on_attach = function(_, bufnr)
+local on_attach = function(client, bufnr)
   local function opts(desc)
     return { buffer = bufnr, desc = 'LSP ' .. desc, noremap = true }
   end
 
-  -- if client.server_capabilities.inlayHintProvider then
-  --   vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-  -- end
+  require('nvim-navic').attach(client, bufnr)
 
   map('n', 'gD', vim.lsp.buf.declaration, opts 'go to decl')
   map('n', 'gd', vim.lsp.buf.definition, opts 'go to def')
