@@ -1,10 +1,11 @@
 return {
   -- load on startup
   {
-    'morhetz/gruvbox',
-    lazy = false,
-    priority = 1000,
-    config = function()
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000 ,
+    opts = require 'plugins.configs.gruvboxcfg',
+    config = function (_, opts)
+      require'gruvbox'.setup(opts)
       vim.cmd.colorscheme 'gruvbox'
     end,
   },
@@ -16,8 +17,6 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     main = 'ibl',
-    ---@module 'ibl'
-    ---@type ibl.config
     opts = {},
   },
 
@@ -182,9 +181,9 @@ return {
       bind = true,
       toggle_key = '<C-j>',
       hint_prefix = {
-          above = "↙ ",
-          current = "← ",
-          below = "↖ "
+        above = "↙ ",
+        current = "← ",
+        below = "↖ "
       },
       toggle_key_flip_floatwin_setting = true,
     },
@@ -200,6 +199,6 @@ return {
       'nvim-lualine/lualine.nvim',
     },
     event = 'LspAttach',
-    opts = { highlight = true, },
+    opts = { highlight = true },
   },
 }

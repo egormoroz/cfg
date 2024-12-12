@@ -91,3 +91,7 @@ map('n', '<leader>do', '<cmd>Dbee open<CR>', { desc = 'dbee open' })
 map('n', '<leader>dc', '<cmd>Dbee close<CR>', { desc = 'dbee close' })
 map('n', '<leader>dd', '<cmd>Dbee toggle<CR>', { desc = 'dbee toggle' })
 map('n', '<leader>de', '<cmd>Dbee execute<CR>', { desc = 'dbee exec' })
+
+map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk_inline<CR>',
+  { desc = 'gitsigns preview hunk' })
+

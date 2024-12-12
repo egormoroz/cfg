@@ -96,6 +96,7 @@ lspconfig["basedpyright"].setup {
           reportPrivateLocalImportUsage = "none",
           reportUnknownLambdaType = "none",
           reportAny = "none",
+          reportArgumentType = "none",
 
           reportUnusedCallResult = "none",
           reportMissingTypeArgument = "none",
@@ -126,4 +127,9 @@ lspconfig.lua_ls.setup{
       },
     },
   },
+}
+
+lspconfig.buf_ls.setup{
+  on_attach = on_attach,
+  capabilities = capabilities,
 }
