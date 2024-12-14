@@ -44,16 +44,17 @@ map('t', '<Esc>', '<C-\\><C-n>', { desc = 'enter normal mode' })
 map({'n', 't'}, '<c-l>', (function ()
   local lazygit = nil
   return function ()
-    if not lazygit or not lazygit:is_open() then
+    if not lazygit then
       local Terminal = require('toggleterm.terminal').Terminal
       lazygit = Terminal:new({
         cmd = 'lazygit',
         hidden = true,
         direction = 'float',
         dir = 'git_dir',
+        on_exit = function ()
+          lazygit = nil
+        end
       })
-    else
-      lazygit:change_dir('git_dir')
     end
     lazygit:toggle()
   end
@@ -126,4 +127,3 @@ end, {
   silent = true,
   noremap = true,
 })
-

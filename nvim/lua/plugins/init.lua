@@ -29,6 +29,15 @@ return {
     opts = require 'plugins.configs.lualine',
   },
 
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function ()
+      require'plugins.configs.harpoon'
+    end
+  },
+
   -- load lazily
   { 'nvim-lua/plenary.nvim', lazy = true },
 
@@ -179,7 +188,7 @@ return {
     event = "VeryLazy",
     opts = {
       bind = true,
-      toggle_key = '<C-j>',
+      toggle_key = '<C-\\>',
       hint_prefix = {
         above = "↙ ",
         current = "← ",
