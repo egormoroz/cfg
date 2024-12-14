@@ -50,6 +50,7 @@ return {
       {
         'navic',
         color_correction = nil,
+        draw_empty = true,
       }
     }
   }

@@ -41,8 +41,20 @@ map('t', '<C-t>', '<C-\\><C-n>:ToggleTerm<CR>', { desc = 'close terminal' })
 map('t', '<Esc>', '<C-\\><C-n>', { desc = 'enter normal mode' })
 
 -- run lazy git in toggleterm
-map('n', '<leader>lg', '<cmd>TermExec direction=float cmd="lazygit"<CR>',
-  { desc = 'run lazy git in toggleterm' })
+map('n', '<leader>lg', (function ()
+  local lazygit = nil
+  return function ()
+    if not lazygit then
+      local Terminal = require('toggleterm.terminal').Terminal
+      lazygit = Terminal:new({
+        cmd = 'lazygit',
+        hidden = true,
+        direction = 'float',
+      })
+    end
+    lazygit:toggle()
+  end
+end)(), { desc = 'run lazy git in toggleterm' })
 
 -- nerd tree
 map('n', '<C-n>', '<cmd>NERDTreeToggle<CR>',
@@ -94,4 +106,21 @@ map('n', '<leader>de', '<cmd>Dbee execute<CR>', { desc = 'dbee exec' })
 
 map('n', '<leader>hp', '<cmd>Gitsigns preview_hunk_inline<CR>',
   { desc = 'gitsigns preview hunk' })
+
+map('n', '<leader>w\\', function()
+  local save_cursor = vim.fn.getpos(".")
+  local old_query = vim.fn.getreg('/')
+  local had_hl = vim.v.hlsearch == 1
+  vim.cmd([[:%s/\s\+$//e]])
+  if had_hl then
+    vim.fn.setreg('/', old_query)
+  else
+    vim.cmd 'nohl'
+  end
+  vim.fn.setpos('.', save_cursor)
+end, {
+  desc = 'rem trailing whitespace',
+  silent = true,
+  noremap = true,
+})
 

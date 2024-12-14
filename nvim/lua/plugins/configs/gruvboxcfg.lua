@@ -1,4 +1,5 @@
 return {
+  terminal_colors = true,
   italic = {
     strings = false,
     operators = false,

@@ -129,7 +129,12 @@ lspconfig.lua_ls.setup{
   },
 }
 
-lspconfig.buf_ls.setup{
+lspconfig.ts_ls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
 }
+
+-- lspconfig.buf_ls.setup{
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+-- }

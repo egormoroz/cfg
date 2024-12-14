@@ -18,11 +18,18 @@ autocmd("BufWritePost", {
 })
 
 autocmd("FileType", {
-  pattern = {"proto", "lua"},
+  pattern = {"proto", "lua", 'javascript', 'javascriptreact'},
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.tabstop = 2
     vim.opt_local.shiftwidth = 2
     vim.opt_local.softtabstop = 2
+  end,
+})
+
+autocmd("FileType", {
+  pattern = {"proto"},
+  callback = function()
+    vim.opt_local.cindent = true
   end,
 })
