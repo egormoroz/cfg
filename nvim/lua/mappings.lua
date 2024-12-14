@@ -41,16 +41,19 @@ map('t', '<C-t>', '<C-\\><C-n>:ToggleTerm<CR>', { desc = 'close terminal' })
 map('t', '<Esc>', '<C-\\><C-n>', { desc = 'enter normal mode' })
 
 -- run lazy git in toggleterm
-map('n', '<leader>lg', (function ()
+map({'n', 't'}, '<c-l>', (function ()
   local lazygit = nil
   return function ()
-    if not lazygit then
+    if not lazygit or not lazygit:is_open() then
       local Terminal = require('toggleterm.terminal').Terminal
       lazygit = Terminal:new({
         cmd = 'lazygit',
         hidden = true,
         direction = 'float',
+        dir = 'git_dir',
       })
+    else
+      lazygit:change_dir('git_dir')
     end
     lazygit:toggle()
   end
