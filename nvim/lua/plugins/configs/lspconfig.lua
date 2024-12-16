@@ -24,11 +24,11 @@ local on_attach = function(client, bufnr)
 
   map('n', '<leader>e', vim.diagnostic.open_float, opts 'expand diagnostic')
 
-  map('n', '<leader>lr', '<cmd>Telescope lsp_references<CR>',
+  map('n', '<leader>ur', '<cmd>Telescope lsp_references<CR>',
     opts 'telescope lsp references')
-  map('n', '<leader>ls', '<cmd>Telescope lsp_document_symbols<CR>',
+  map('n', '<leader>us', '<cmd>Telescope lsp_document_symbols<CR>',
     opts 'telescope lsp doc symbols')
-  map('n', '<leader>ld', '<cmd>Telescope diagnostics<CR>',
+  map('n', '<leader>ud', '<cmd>Telescope diagnostics<CR>',
     opts 'telescope diagnostic')
 end
 
@@ -133,6 +133,10 @@ lspconfig.ts_ls.setup {
   on_attach = on_attach,
   capabilities = capabilities,
 }
+-- lspconfig.eslint.setup {
+--   -- on_attach = on_attach,
+--   capabilities = capabilities,
+-- }
 
 -- lspconfig.buf_ls.setup{
 --   on_attach = on_attach,

@@ -5,6 +5,7 @@ end
 
 local get_sigline = function()
   local sig = require("lsp_signature").status_line(85)
+  if vim.fn.mode() ~= 'i' then return '' end
   if not sig.label or not sig.range or sig.label:match("^%s*$") then
     return ''
   end
@@ -36,7 +37,7 @@ return {
           return sigline
         end,
         cond = function ()
-          sigline = get_sigline()
+          sigline =  get_sigline()
           return #sigline > 0
         end
       },

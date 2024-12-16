@@ -10,6 +10,6 @@ return {
   },
   indent = {
     enable = true,
-    disable = { 'proto' },
+    disable = { 'proto', },
   },
 }

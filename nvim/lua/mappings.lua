@@ -85,11 +85,11 @@ map('n', '<leader>gt', '<cmd>Telescope git_status<CR>',
 map('n', '<leader>n', '<cmd>Telescope file_browser<CR>',
   { desc = 'telescope file browser' })
 
-map('n', '<leader>lr', '<cmd>Telescope lsp_references<CR>',
+map('n', '<leader>ur', '<cmd>Telescope lsp_references<CR>',
   { desc = 'telescope lsp references' })
-map('n', '<leader>ls', '<cmd>Telescope lsp_document_symbols<CR>',
+map('n', '<leader>us', '<cmd>Telescope lsp_document_symbols<CR>',
   { desc = 'telescope lsp doc symbols' })
-map('n', '<leader>ld', '<cmd>Telescope diagnostics<CR>',
+map('n', '<leader>ud', '<cmd>Telescope diagnostics<CR>',
   { desc = 'telescope diagnostics' })
 
 -- find current file
