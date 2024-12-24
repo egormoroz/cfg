@@ -67,7 +67,17 @@ map('n', '<leader>t', '<cmd>NERDTreeFind<CR>',
   { desc = 'find current file in NERDTree' })
 
 -- telescope
-map('n', '<leader>fg', '<cmd>Telescope live_grep<CR>',
+
+map('n', '<leader>fg', function()
+    local current_file = vim.fn.expand('%:p')
+    local parent_dir = vim.fn.fnamemodify(current_file, ':h')
+    require('telescope.builtin').live_grep({
+        search_dirs = { parent_dir },
+        cwd = parent_dir,
+    })
+end, { desc = 'telescope bufdir live grep' })
+
+map('n', '<leader>fG', '<cmd>Telescope live_grep<CR>',
   { desc = 'telescope live grep' })
 map('n', '<leader>fb', '<cmd>Telescope buffers<CR>',
   { desc = 'telescope find buffers' })
