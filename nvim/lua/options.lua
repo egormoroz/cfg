@@ -4,10 +4,13 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 o.clipboard = 'unnamed,unnamedplus'
-o.shiftwidth = 4
-o.tabstop = 4
-o.number = true
+
+o.shiftwidth = 2
+o.tabstop = 2
+o.softtabstop = 2
 o.expandtab = true
+
+o.number = true
 o.relativenumber = true
 
 o.swapfile = true
