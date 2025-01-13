@@ -3,7 +3,7 @@ local cmp = require 'cmp'
 return {
   snippet = {
     expand = function(args)
-      require('luasnip').lsp_expand(args.body)
+      vim.snippet.expand(args.body)
     end,
   },
 
@@ -23,15 +23,14 @@ return {
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
 
-  sources = cmp.config.sources {
+  sources = cmp.config.sources({
     { name = "nvim_lsp" },
-    { name = "luasnip" },
-    { name = "buffer" },
-    { name = "nvim_lua" },
     { name = "path" },
-  },
+  }, {
+      { name = "buffer" },
+  }),
 
-  -- completion = {
-  --   completeopt = 'menu,menuone,preview,noselect'
-  -- },
+  completion = {
+    completeopt = 'menu,menuone,preview,noselect'
+  },
 }

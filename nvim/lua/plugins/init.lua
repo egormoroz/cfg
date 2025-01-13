@@ -7,6 +7,8 @@ return {
     config = function (_, opts)
       require'gruvbox'.setup(opts)
       vim.cmd.colorscheme 'gruvbox'
+      vim.api.nvim_set_hl(0, 'SnippetTabstop', { link = 'None' })
+      vim.api.nvim_set_hl(0, 'SnippetPlaceholder', { link = 'None' })
     end,
   },
 
@@ -128,13 +130,6 @@ return {
       'hrsh7th/cmp-cmdline',
 
       'rafamadriz/friendly-snippets',
-
-      {
-        'L3MON4D3/LuaSnip',
-        config = function()
-          require('luasnip.loaders.from_vscode').lazy_load()
-        end,
-      },
     },
     -- made opts a function cuz cmp config calls cmp module
     -- and we lazyloaded cmp so we dont want that file to be read on startup!

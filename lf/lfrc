@@ -4,6 +4,20 @@ set ifs "\n"
 set scrolloff 10
 set icons
 
+cmd open ${{
+    test -L $f && f=$(readlink -f $f)
+    case $(file --mime-type "$f" -b) in
+	image/vnd.djvu|application/pdf|application/octet-stream) setsid -f zathura "$fx" >/dev/null 2>&1 ;;
+        text/*) $EDITOR "$fx";;
+	image/x-xcf|image/svg+xml) setsid -f gimp $f >/dev/null 2>&1 ;;
+	image/*) "$f" | grep -i "\.\(png\|jpg\|jpeg\|gif\|webp\|tif\)\(_large\)*$" | vimiv "$f" 2>/dev/null ;;
+	audio/*) mpv --audio-display=no "$f";;
+	video/*) setsid -f mpv "$fx" -quiet >/dev/null 2>&1 ;;
+	application/pdf|application/vnd*|application/epub*) setsid -f zathura "$fx" >/dev/null 2>&1 ;;
+        *) for f in "$fx"; do setsid -f $OPENER "$f" >/dev/null 2>&1; done;;
+   esac
+}}
+
 cmd on-cd &{{
     printf '%s\n' "$PWD" >> ~/.local/share/lf/dir_history
 }}
@@ -11,12 +25,17 @@ cmd on-cd &{{
 on-cd
 
 # mkdir command. See wiki if you want it to select created dir
-map a :push %mkdir<space>
+map A :push %mkdir<space>
+map a :push %touch<space>
 
 map o &mimeopen $f
 map O $mimeopen --ask $f
 
 map D delete
 
-map gd cd ~/Documents/imageboard/backend
+map gd cd ~/Documents
 
+map gpd cd ~/Documents/dotfiles
+map gpb cd ~/Documents/textboard/backend
+map gpf cd ~/Documents/textboard/frontend
+map gpi cd ~/Documents/introdemo
