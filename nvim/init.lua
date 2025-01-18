@@ -1,5 +1,5 @@
 require 'options'
-require 'mappings'
+require('mappings').setup_global()
 require 'autocmds'
 
 -- bootstrap lazy.nvim

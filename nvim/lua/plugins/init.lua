@@ -7,8 +7,6 @@ return {
     config = function (_, opts)
       require'gruvbox'.setup(opts)
       vim.cmd.colorscheme 'gruvbox'
-      vim.api.nvim_set_hl(0, 'SnippetTabstop', { link = 'None' })
-      vim.api.nvim_set_hl(0, 'SnippetPlaceholder', { link = 'None' })
     end,
   },
 
@@ -95,6 +93,19 @@ return {
   },
 
   {
+    'nvim-treesitter/nvim-treesitter-context',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
+    event = { 'BufReadPost', 'BufNewFile' },
+    opts = {
+      max_lines = 2,
+      multiline_threshold = 1,
+      trim_scope = 'inner',
+    },
+  },
+
+  {
     'Vimjas/vim-python-pep8-indent',
     ft = 'python',
   },
@@ -119,26 +130,6 @@ return {
   },
 
   {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    dependencies = {
-      'hrsh7th/nvim-cmp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-
-      'rafamadriz/friendly-snippets',
-    },
-    -- made opts a function cuz cmp config calls cmp module
-    -- and we lazyloaded cmp so we dont want that file to be read on startup!
-    opts = function()
-      return require 'plugins.configs.cmp'
-    end,
-  },
-
-  {
     'williamboman/mason.nvim',
     build = ':MasonUpdate',
     cmd = { 'Mason', 'MasonInstall' },
@@ -156,8 +147,8 @@ return {
   {
     'neovim/nvim-lspconfig',
     dependencies = {
-      'williamboman/mason-lspconfig.nvim',
       'williamboman/mason.nvim',
+      'saghen/blink.cmp'
     },
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
@@ -165,7 +156,7 @@ return {
     end,
   },
 
-  {
+  --[[ {
     "kndndrj/nvim-dbee",
     dependencies = {
       "MunifTanjim/nui.nvim",
@@ -176,35 +167,7 @@ return {
     config = function()
       require("dbee").setup()
     end,
-  },
-
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
-    opts = {
-      bind = true,
-      toggle_key = '<C-\\>',
-      hint_prefix = {
-        above = "↙ ",
-        current = "← ",
-        below = "↖ "
-      },
-      toggle_key_flip_floatwin_setting = true,
-    },
-    config = function(_, opts)
-      require'lsp_signature'.setup(opts)
-    end,
-  },
-
-  {
-    'SmiteshP/nvim-navic',
-    dependencies = {
-      'neovim/nvim-lspconfig',
-      'nvim-lualine/lualine.nvim',
-    },
-    event = 'LspAttach',
-    opts = { highlight = true },
-  },
+  }, ]]
 
   {
     'windwp/nvim-ts-autotag',
@@ -214,4 +177,29 @@ return {
     },
     opts = {},
   },
+
+  {
+    'saghen/blink.cmp',
+    -- optional: provides snippets for the snippet source
+    dependencies = 'rafamadriz/friendly-snippets',
+
+    version = '*',
+
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      keymap = require('mappings').blink,
+      signature = { enabled = true },
+
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = 'mono'
+      },
+
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+    },
+    opts_extend = { "sources.default" }
+  }
 }

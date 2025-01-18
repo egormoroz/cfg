@@ -7,7 +7,11 @@ tel.setup {
       i = {
         ['<C-j>'] = actions.move_selection_next,
         ['<C-k>'] = actions.move_selection_previous,
-        ['<C-p>'] = actions.delete_buffer,
+        ['<C-u>'] = actions.delete_buffer,
+        ['<C-n>'] = actions.preview_scrolling_down,
+        ['<C-p>'] = actions.preview_scrolling_up,
+        ['<C-h>'] = actions.preview_scrolling_left,
+        ['<C-l>'] = actions.preview_scrolling_right,
       }
     }
   },
