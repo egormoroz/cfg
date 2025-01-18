@@ -39,3 +39,5 @@ map gpd cd ~/Documents/dotfiles
 map gpb cd ~/Documents/textboard/backend
 map gpf cd ~/Documents/textboard/frontend
 map gpi cd ~/Documents/introdemo
+map gpg cd ~/Documents/gool
+
