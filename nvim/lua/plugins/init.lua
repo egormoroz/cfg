@@ -7,6 +7,8 @@ return {
     config = function (_, opts)
       require'gruvbox'.setup(opts)
       vim.cmd.colorscheme 'gruvbox'
+      vim.api.nvim_set_hl(0, 'SnippetTabstop', { link = 'None' })
+      vim.api.nvim_set_hl(0, 'SnippetPlaceholder', { link = 'None' })
     end,
   },
 
