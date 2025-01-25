@@ -63,7 +63,7 @@ end)(), { desc = 'run lazy git in toggleterm' })
 -- nerd tree
 map('n', '<C-n>', '<cmd>NERDTreeToggle<CR>',
   { desc = 'toggle NERDTree' })
-map('n', '<leader>t', '<cmd>NERDTreeFind<CR>',
+map('n', '<leader>T', '<cmd>NERDTreeFind<CR>',
   { desc = 'find current file in NERDTree' })
 
 
@@ -93,3 +93,6 @@ end, {
   noremap = true,
 })
 
+-- diffview
+map('n', '<leader>gdd', '<cmd>DiffviewOpen<CR>', { desc = 'diffview' })
+map('n', '<leader>gdm', '<cmd>DiffviewOpen master..HEAD<CR>', { desc = 'diffview' })
