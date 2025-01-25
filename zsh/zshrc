@@ -11,4 +11,4 @@ export MANPAGER='nvim +Man!'
 
 export EDITOR='nvim'
 
-bindkey '^j' autosuggest-accept
+bindkey '^y' autosuggest-accept

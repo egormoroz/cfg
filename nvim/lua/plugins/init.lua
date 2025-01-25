@@ -193,6 +193,10 @@ return {
       keymap = require('mappings').blink,
       signature = { enabled = true },
 
+      completion = {
+        documentation = { auto_show = true, auto_show_delay_ms = 200 },
+      },
+
       appearance = {
         use_nvim_cmp_as_default = true,
         nerd_font_variant = 'mono'
@@ -203,5 +207,13 @@ return {
       },
     },
     opts_extend = { "sources.default" }
-  }
+  },
+
+  {
+    'sindrets/diffview.nvim',
+    dependencies =  {
+      'nvim-treesitter/nvim-treesitter',
+    },
+    cmd = { 'DiffviewOpen' },
+  },
 }
