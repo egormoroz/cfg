@@ -68,6 +68,7 @@ local servers = {
   },
   ts_ls = {},
   tailwindcss = {},
+  svelte = {},
 }
 
 local lspconfig = require 'lspconfig'

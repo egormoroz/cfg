@@ -6,7 +6,7 @@ return {
     lualine_c = {'filename'},
     lualine_x = {},
     lualine_y = {},
-    lualine_z = {}
+    -- lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
@@ -14,6 +14,6 @@ return {
     lualine_c = {'filename'},
     lualine_x = {},
     lualine_y = {},
-    lualine_z = {}
+    -- lualine_z = {}
   },
 }

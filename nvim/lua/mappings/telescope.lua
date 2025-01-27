@@ -25,10 +25,10 @@ mapn('<leader>fD', function ()
 end, 'telescope findfiles config')
 
 mapn('<leader>fB', function ()
-  bi().buffers { select_current = true, only_cwd = true }
+  bi().buffers { only_cwd = true }
 end, 'telescope find buffers in cwd')
 mapn('<leader>fb', function ()
-  bi().buffers { select_current = true }
+  bi().buffers()
 end, 'telescope find buffers')
 
 mapn('<leader>f?', function () bi().oldfiles() end, 'telescope find oldfiles')
@@ -73,7 +73,8 @@ mapn('<leader>m', function ()
   fb().file_browser { path = bufdir() }
 end, 'telescope bufdir file browser')
 
-mapn('<leader>ud', function () bi().diagnostics() end, 'telescope diagnostics')
+mapn('<leader>ud', function () bi().lsp_definitions() end, 'telescope lsp defs')
+mapn('<leader>ue', function () bi().diagnostics() end, 'telescope diagnostics')
 mapn('<leader>ur', function () bi().lsp_references() end, 'telescope lsp references')
 mapn('<leader>us', function ()
   bi().lsp_document_symbols()
