@@ -3,6 +3,11 @@ local actions = require('telescope.actions')
 
 tel.setup {
   defaults = {
+    layout_strategy = 'vertical',
+    layout_config = {
+      height = 0.95,
+      preview_height = 0.65,
+    },
     mappings = {
       i = {
         ['<C-j>'] = actions.move_selection_next,
@@ -12,6 +17,9 @@ tel.setup {
         ['<C-u>'] = actions.preview_scrolling_up,
         ['<C-[>'] = actions.preview_scrolling_left,
         ['<C-]>'] = actions.preview_scrolling_right,
+
+        ['<C-l>'] = actions.results_scrolling_right,
+        ['<C-h>'] = actions.results_scrolling_left,
       }
     }
   },
