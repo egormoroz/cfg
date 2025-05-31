@@ -61,14 +61,13 @@ local servers = {
             reportMissingTypeArgument = "none",
 
             reportImplicitOverride = "none",
+            reportMissingTypeStubs = "none",
           }
         }
       }
     }
   },
   ts_ls = {},
-  tailwindcss = {},
-  svelte = {},
 }
 
 local lspconfig = require 'lspconfig'

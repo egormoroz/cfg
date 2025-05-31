@@ -12,3 +12,117 @@ export MANPAGER='nvim +Man!'
 export EDITOR='nvim'
 
 bindkey '^y' autosuggest-accept
+
+alias gn="cd $HOME/Documents/notes"
+
+ns() {
+  if [ -z "$1" ]; then
+    # No args: show current task ID
+    if [ -f ~/.current_task_id ]; then
+      echo "Current task ID: $(cat ~/.current_task_id)"
+    else
+      echo "No current task ID set. Use 'ns <task_id>' to set one."
+    fi
+  else
+    # With arg: set current task ID
+    echo "$1" > ~/.current_task_id
+    echo "Current task ID set to: $1"
+  fi
+}
+
+# Helper function to get task ID
+_get_task_id() {
+  local task_id="$1"
+
+  if [ -z "$task_id" ]; then
+    if [ -f ~/.current_task_id ]; then
+      task_id=$(cat ~/.current_task_id)
+      echo "Using current task ID: $task_id" >&2
+    else
+      echo "No task ID provided and no current task ID set." >&2
+      echo "Usage: ${2:-nw} <task_id> or set current task with 'ns <task_id>'" >&2
+      return 1
+    fi
+  fi
+
+  echo "$task_id"
+}
+
+# Set/show current task ID
+ns() {
+  if [ -z "$1" ]; then
+    if [ -f ~/.current_task_id ]; then
+      echo "Current task ID: $(cat ~/.current_task_id)"
+    else
+      echo "No current task ID set. Use 'ns <task_id>' to set one."
+    fi
+  else
+    echo "$1" > ~/.current_task_id
+    echo "Current task ID set to: $1"
+  fi
+}
+
+# New work note
+nw() {
+  local task_id
+  task_id=$(_get_task_id "$1" "nw") || return 1
+
+  local note_dir="$HOME/Documents/notes/work/lrng-$task_id"
+  local note_file="$note_dir/note.md"
+
+  mkdir -p "$note_dir"
+  nvim "$note_file"
+}
+
+# New work thread (from template)
+nwt() {
+  local task_id
+  task_id=$(_get_task_id "$1" "nwt") || return 1
+
+  local note_dir="$HOME/Documents/notes/work/lrng-$task_id"
+  local thread_file="$note_dir/thread.md"
+  local template_file="$HOME/Documents/notes/templates/thread.md"
+
+  # Check if template exists
+  if [ ! -f "$template_file" ]; then
+    echo "Template file not found: $template_file"
+    return 1
+  fi
+
+  # Check if thread.md already exists
+  if [ -f "$thread_file" ]; then
+    echo "Thread file already exists: $thread_file"
+    echo "Opening existing file..."
+    nvim "$thread_file"
+    return 0
+  fi
+
+  # Create directory if it doesn't exist
+  mkdir -p "$note_dir"
+
+  # Copy template and replace ##TASK_ID## with actual task ID
+  sed "s/##TASK_ID##/$task_id/g" "$template_file" > "$thread_file"
+
+  echo "Created thread from template: $thread_file"
+  nvim "$thread_file"
+}
+
+# New general note (in the /b/ random directory)
+nt() {
+  if [ -z "$1" ]; then
+    echo "Usage: nt <name>"
+    return 1
+  fi
+
+  local name="$1"
+  local year_month=$(date +%Y-%m)
+  local note_dir="$HOME/Documents/notes/b/$year_month"
+  local note_file="$note_dir/$name.md"
+
+    # Create directory if it doesn't exist
+  mkdir -p "$note_dir"
+
+  # Open the note in neovim
+  nvim "$note_file"
+}
+

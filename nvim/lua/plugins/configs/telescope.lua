@@ -3,11 +3,6 @@ local actions = require('telescope.actions')
 
 tel.setup {
   defaults = {
-    layout_strategy = 'vertical',
-    layout_config = {
-      height = 0.95,
-      preview_height = 0.65,
-    },
     mappings = {
       i = {
         ['<C-j>'] = actions.move_selection_next,

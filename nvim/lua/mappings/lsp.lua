@@ -4,7 +4,7 @@ end
 
 map('n', 'gD', vim.lsp.buf.declaration, 'go to decl')
 map('n', 'gd', vim.lsp.buf.definition, 'go to def')
-map('n', 'gi', vim.lsp.buf.implementation, 'go to impl')
+-- map('n', 'gi', vim.lsp.buf.implementation, 'go to impl')
 map('n', '<leader>D', vim.lsp.buf.type_definition, 'go to type def')
 map('n', 'gr', vim.lsp.buf.references, 'go to references')
 

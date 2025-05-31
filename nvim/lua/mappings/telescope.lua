@@ -6,6 +6,8 @@ local mapn = function(lhs, rhs, desc)
   vim.keymap.set('n', lhs, rhs, { desc = desc })
 end
 
+mapn('gi', function() bi().lsp_implementations() end, 'goto impl')
+
 mapn('<leader>fG', function ()
   bi().live_grep()
 end, 'telescope live grep')
