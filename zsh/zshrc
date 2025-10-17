@@ -1,5 +1,7 @@
 alias lg=lazygit
 alias v=nvim
+alias yd="yt-dlp --proxy socks5://localhost:1080"
+alias yda="yt-dlp --proxy socks5://localhost:1080 -x --audio-format opus"
 
 LFCD="$HOME/.config/lf/lfcd.sh"
 if [ -f "$LFCD" ]; then

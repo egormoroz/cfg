@@ -13,8 +13,8 @@ tel.setup {
         ['<C-[>'] = actions.preview_scrolling_left,
         ['<C-]>'] = actions.preview_scrolling_right,
 
-        ['<C-l>'] = actions.results_scrolling_right,
-        ['<C-h>'] = actions.results_scrolling_left,
+        -- ['<C-l>'] = actions.results_scrolling_right,
+        -- ['<C-h>'] = actions.results_scrolling_left,
       }
     }
   },

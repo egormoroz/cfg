@@ -96,3 +96,9 @@ end, {
 -- diffview
 map('n', '<leader>gdd', '<cmd>DiffviewOpen<CR>', { desc = 'diffview' })
 map('n', '<leader>gdm', '<cmd>DiffviewOpen master..HEAD<CR>', { desc = 'diffview' })
+
+-- gofmt + goimports
+map('n', '<leader>fL',function ()
+  vim.cmd("silent !go fmt %")
+  vim.cmd("silent !goimports -w %")
+end, { desc = 'gofmt & gomiports buffer' })

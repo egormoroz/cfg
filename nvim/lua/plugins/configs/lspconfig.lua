@@ -3,6 +3,13 @@
 end ]]
 
 local servers = {
+  zls = {
+    settings = {
+      zls = {
+        enable_snippets = false,
+      },
+    },
+  },
   lua_ls = {
     settings = {
       Lua = {
@@ -18,21 +25,17 @@ local servers = {
         telemetry = {
           enable = false,
         },
+        hint = { enable = true },
       },
     },
   },
   gopls = {
     settings = {
       gopls = {
-        analyses = {
-          unusedparams = true,
-          unusedvariables = true,
-          unusedwrite = true,
-          useany = true,
+        hints = {
+          constantValues = true,
         },
         staticcheck = true,
-        gofumpt = true,
-        experimentalPostfixCompletions = true,
       },
     },
   },
@@ -67,13 +70,20 @@ local servers = {
       }
     }
   },
+  rust_analyzer = {
+    settings = {
+      rust_analyzer = {
+      },
+    },
+  },
+  svelte = {},
   ts_ls = {},
 }
 
 local lspconfig = require 'lspconfig'
 
 for server, config in pairs(servers) do
-  local caps = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+  local caps = require('blink.cmp').get_lsp_capabilities(config.capabilities, true)
   config.capabilities = caps
   lspconfig[server].setup(config)
 end

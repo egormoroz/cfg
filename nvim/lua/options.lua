@@ -18,3 +18,6 @@ o.undofile = true
 
 o.ignorecase = true
 o.smartcase = true
+
+vim.diagnostic.config({ virtual_text = true })
+-- vim.lsp.inlay_hint.enable(true)

@@ -157,20 +157,6 @@ return {
       require 'plugins.configs.lspconfig'
     end,
   },
-
-  --[[ {
-    "kndndrj/nvim-dbee",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-    },
-    build = function()
-      require("dbee").install()
-    end,
-    config = function()
-      require("dbee").setup()
-    end,
-  }, ]]
-
   {
     'windwp/nvim-ts-autotag',
     event = {'BufReadPre', 'BufNewFile'},
@@ -182,10 +168,8 @@ return {
 
   {
     'saghen/blink.cmp',
-    -- optional: provides snippets for the snippet source
-    -- dependencies = 'rafamadriz/friendly-snippets',
 
-    version = '*',
+    version = '1.*',
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
