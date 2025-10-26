@@ -68,11 +68,25 @@ mapn('<leader>tj', '<cmd>tabnext<CR>', 'next tab')
 mapn('<leader>tk', '<cmd>tabprevious<CR>', 'previous tab')
 mapn('<leader>tq', '<cmd>tabclose<CR>', 'close tab')
 
+-- vim.diagnostic.get_prev()
+
 -- lsp mappings
 mapn('gd', vim.lsp.buf.definition, 'go to def')
 mapn('<leader>D', vim.lsp.buf.type_definition, 'go to type def')
-mapn('g[', vim.diagnostic.goto_prev, 'go to next diagnostic')
-mapn('g]', vim.diagnostic.goto_next, 'go to prev diagnostic')
+mapn('g[', function ()
+  local d = vim.diagnostic.get_prev()
+  if d then
+    vim.diagnostic.jump({ diagnostic = d })
+  end
+end, 'go to next diagnostic')
+mapn('g]', function ()
+  local d = vim.diagnostic.get_next()
+  if d then
+    vim.diagnostic.jump({ diagnostic = d })
+  end
+end, 'go to next diagnostic')
+-- mapn('g[', vim.diagnostic.goto_prev, 'go to next diagnostic')
+-- mapn('g]', vim.diagnostic.goto_next, 'go to prev diagnostic')
 mapn('ga', vim.lsp.buf.code_action, 'code actions')
 mapn('<leader>rn', vim.lsp.buf.rename, 'rename symbol')
 mapn('K', vim.lsp.buf.hover, 'show hover info')
@@ -257,7 +271,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs',
     opts = {
       ensure_installed = {
-        'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc', 'sql', 'proto'
+        'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc', 'sql', 'proto', 'zig'
       },
 
       highlight = {
@@ -267,7 +281,7 @@ require('lazy').setup({
       },
       indent = {
         enable = true,
-        -- disable = { 'proto', 'go' },
+        disable = { 'proto', 'go', 'zig' },
       },
     },
   },
@@ -424,7 +438,7 @@ require('lazy').setup({
           lspmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
           lspmap('ga', vim.lsp.buf.code_action, '[G]oto Code [A]ction', { 'n', 'x' })
           lspmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-          lspmap('lr', bi.lsp_references, '[G]oto [R]eferences')
+          lspmap('g.', bi.lsp_references, '[G]oto [R]eferences')
           lspmap('gi', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
           lspmap('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
           lspmap('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
@@ -483,34 +497,7 @@ require('lazy').setup({
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-        basedpyright = {
-          settings = {
-            basedpyright = {
-              analysis = {
-                diagnosticSeverityOverrides = {
-                  reportUnknownVariableType = "none",
-                  reportUnknownMemberType = "none",
-                  reportUnknownArgumentType = "none",
-                  reportMissingParameterType = "none",
-                  reportUnknownParameterType = "none",
-
-                  reportOptionalMemberAccess = "none",
-
-                  reportPrivateLocalImportUsage = "none",
-                  reportUnknownLambdaType = "none",
-                  reportAny = "none",
-                  reportArgumentType = "none",
-
-                  reportUnusedCallResult = "none",
-                  reportMissingTypeArgument = "none",
-
-                  reportImplicitOverride = "none",
-                  reportMissingTypeStubs = "none",
-                }
-              }
-            }
-          }
-        },
+        basedpyright = {},
         zls = {
           settings = {
             zls = {
@@ -606,7 +593,7 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
