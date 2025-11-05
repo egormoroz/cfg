@@ -405,6 +405,11 @@ require('lazy').setup({
       },
     },
   },
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+  },
 
   {
     'folke/lazydev.nvim',
@@ -512,6 +517,10 @@ require('lazy').setup({
                 constantValues = true,
               },
               staticcheck = true,
+              analyses = {
+                ST1000 = false,
+                ST1003 = false,
+              },
             },
           },
         },
