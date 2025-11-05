@@ -31,8 +31,8 @@ map D delete
 map gd cd ~/Documents
 
 map gpd cd ~/Documents/dotfiles
-map gpb cd ~/Documents/textboard/backend
-map gpf cd ~/Documents/textboard/frontend
-map gpi cd ~/Documents/introdemo
-map gpg cd ~/Documents/gool
+map gpa cd ~/Documents/profit-edu-admin-api
+map gpe cd ~/Documents/profit-edu-api
+map gpu cd ~/Documents/lms-user-api
+map gn cd ~/Documents/notes
 
