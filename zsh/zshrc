@@ -128,3 +128,21 @@ nt() {
   nvim "$note_file"
 }
 
+proxy_on() {
+  export HTTPS_PROXY=http://127.0.0.1:10802
+  export HTTP_PROXY=http://127.0.0.1:10802
+}
+
+proxy_off() {
+  unset HTTPS_PROXY HTTP_PROXY
+}
+
+_ORIG_PS1="$PS1"
+_proxy_prompt() {
+  if [[ -n "$HTTPS_PROXY" ]]; then
+    PS1="%F{yellow}P%f $_ORIG_PS1"
+  else
+    PS1="$_ORIG_PS1"
+  fi
+}
+precmd_functions+=(_proxy_prompt)

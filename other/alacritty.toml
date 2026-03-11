@@ -6,3 +6,6 @@ italic.family = "Hack"
 bold_italic.family = "Hack"
 
 size = 14.0
+
+[window] 
+option_as_alt = "Both"
