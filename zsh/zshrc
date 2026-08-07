@@ -129,8 +129,8 @@ nt() {
 }
 
 proxy_on() {
-  export HTTPS_PROXY=http://127.0.0.1:10802
-  export HTTP_PROXY=http://127.0.0.1:10802
+  export HTTPS_PROXY=http://127.0.0.1:1082
+  export HTTP_PROXY=http://127.0.0.1:1082
 }
 
 proxy_off() {

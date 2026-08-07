@@ -510,15 +510,7 @@ require('lazy').setup({
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-        basedpyright = {
-          settings = {
-            basedpyright = {
-              analysis = {
-                typeCheckingMode = "standard",
-              },
-            },
-          },
-        },
+        pyrefly = {},
         zls = {
           settings = {
             zls = {
