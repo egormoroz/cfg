@@ -34,6 +34,14 @@ vim.o.timeoutlen = 300
 vim.o.cursorline = true
 vim.o.scrolloff = 5
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "nim",
+  callback = function()
+    vim.opt_local.expandtab = true
+    vim.opt_local.shiftwidth = 2
+  end,
+})
+
 -- insert lines
 mapn('<Enter>', function()
   if vim.bo.modifiable then
@@ -94,7 +102,7 @@ mapn('<leader>e', vim.diagnostic.open_float, 'expand diagnostic')
 map({'n', 'i'}, '<C-K>', vim.lsp.buf.signature_help, 'show sig help')
 
 -- toggleterm
-map({'n', 'i'}, '<C-t>', ':ToggleTerm direction=float<CR>', 'open floating terminal')
+map('n', '<C-t>', ':ToggleTerm direction=float<CR>', 'open floating terminal')
 map('t', '<C-t>', '<C-\\><C-n>:ToggleTerm<CR>','close terminal')
 map('t', '<Esc>', '<C-\\><C-n>','enter normal mode')
 
@@ -502,7 +510,15 @@ require('lazy').setup({
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local servers = {
-        basedpyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = "standard",
+              },
+            },
+          },
+        },
         zls = {
           settings = {
             zls = {
@@ -618,6 +634,54 @@ require('lazy').setup({
 
       signature = { enabled = true },
     },
+  },
+
+  {
+    'mfussenegger/nvim-dap',
+    dependencies = {
+      { 'rcarriga/nvim-dap-ui', dependencies = { 'nvim-neotest/nvim-nio' } },
+      'leoluz/nvim-dap-go',
+      'theHamsta/nvim-dap-virtual-text',
+    },
+    config = function()
+      local dap = require 'dap'
+      local dapui = require 'dapui'
+
+      require('dap-go').setup {
+        dap_configurations = {
+          {
+            -- attach to an already-running `dlv ... --headless -l 127.0.0.1:38697`
+            type = 'go',
+            name = 'Attach remote (headless dlv :38697)',
+            mode = 'remote',
+            request = 'attach',
+            port = 38697,
+          },
+        },
+      }
+      require('nvim-dap-virtual-text').setup {}
+      dapui.setup()
+
+      dap.listeners.after.event_initialized['dapui'] = function() dapui.open() end
+
+      mapn('<leader>dc', dap.continue, 'dap start/continue')
+      mapn('<leader>db', dap.toggle_breakpoint, 'dap toggle breakpoint')
+      mapn('<leader>dB', function()
+        dap.set_breakpoint(vim.fn.input 'condition: ')
+      end, 'dap conditional breakpoint')
+      mapn('<leader>dn', dap.step_over, 'dap step over')
+      mapn('<leader>di', dap.step_into, 'dap step into')
+      mapn('<leader>do', dap.step_out, 'dap step out')
+      mapn('<leader>dC', dap.run_to_cursor, 'dap run to cursor')
+      mapn('<leader>dq', function()
+        dap.terminate()
+        dapui.close()
+      end, 'dap terminate')
+      mapn('<leader>du', dapui.toggle, 'dap ui toggle')
+      map({ 'n', 'x' }, '<leader>de', function() dapui.eval() end, 'dap eval')
+      mapn('<leader>dt', function() require('dap-go').debug_test() end, 'dap debug nearest go test')
+      mapn('<leader>dT', function() require('dap-go').debug_last_test() end, 'dap rerun last test')
+    end,
   }
 })
 
