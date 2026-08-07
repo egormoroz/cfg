@@ -13,6 +13,7 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
 vim.o.number = true
+vim.o.signcolumn = 'yes'
 vim.o.mouse = 'a'
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
@@ -33,9 +34,15 @@ vim.o.timeoutlen = 300
 
 vim.o.cursorline = true
 vim.o.scrolloff = 5
+vim.o.sidescrolloff = 8
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.confirm = true
 
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "nim",
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('user-filetype-options', { clear = true }),
+  pattern = 'nim',
+  desc = 'Use two-space indentation for Nim',
   callback = function()
     vim.opt_local.expandtab = true
     vim.opt_local.shiftwidth = 2
@@ -57,7 +64,7 @@ mapn('<leader><Enter>', function()
   else
     return "<Enter>"
   end
-end, { expr = true, desc = "Insert line below" })
+end, { expr = true, desc = "Insert line above" })
 
 -- window mappings
 mapn('<leader>wj', '<C-w>1w', 'nav to window 1')
@@ -81,20 +88,12 @@ mapn('<leader>tq', '<cmd>tabclose<CR>', 'close tab')
 -- lsp mappings
 mapn('gd', vim.lsp.buf.definition, 'go to def')
 mapn('<leader>D', vim.lsp.buf.type_definition, 'go to type def')
-mapn('g[', function ()
-  local d = vim.diagnostic.get_prev()
-  if d then
-    vim.diagnostic.jump({ diagnostic = d })
-  end
-end, 'go to next diagnostic')
-mapn('g]', function ()
-  local d = vim.diagnostic.get_next()
-  if d then
-    vim.diagnostic.jump({ diagnostic = d })
-  end
-end, 'go to next diagnostic')
--- mapn('g[', vim.diagnostic.goto_prev, 'go to next diagnostic')
--- mapn('g]', vim.diagnostic.goto_next, 'go to prev diagnostic')
+mapn('g[', function()
+  vim.diagnostic.jump({ count = -1, float = true })
+end, 'previous diagnostic')
+mapn('g]', function()
+  vim.diagnostic.jump({ count = 1, float = true })
+end, 'next diagnostic')
 mapn('ga', vim.lsp.buf.code_action, 'code actions')
 mapn('<leader>rn', vim.lsp.buf.rename, 'rename symbol')
 mapn('K', vim.lsp.buf.hover, 'show hover info')
@@ -146,11 +145,9 @@ end, {
 mapn('<leader>gdd', '<cmd>DiffviewOpen<CR>', 'diffview')
 mapn('<leader>gdm', '<cmd>DiffviewOpen master..HEAD<CR>', 'diffview')
 
--- gofmt + goimports
-mapn('<leader>fL',function ()
-  vim.cmd("silent !go fmt %")
-  vim.cmd("silent !goimports -w %")
-end, { desc = 'gofmt & gomiports buffer' })
+mapn('<leader>fL', function()
+  vim.lsp.buf.format({ async = true })
+end, { desc = 'format buffer with LSP' })
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -273,25 +270,29 @@ require('lazy').setup({
   },
   {
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
+    branch = 'main',
     lazy = false,
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs',
-    opts = {
-      ensure_installed = {
-        'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc', 'sql', 'proto', 'zig'
-      },
+    config = function()
+      local parsers = {
+        'c', 'lua', 'cpp', 'python', 'go', 'vim', 'vimdoc', 'sql', 'proto', 'zig',
+      }
 
-      highlight = {
-        enable = true,
-        disable = { 'html' },
-        -- additional_vim_regex_highlighting = { "python" },
-      },
-      indent = {
-        enable = true,
-        disable = { 'proto', 'go', 'zig' },
-      },
-    },
+      require('nvim-treesitter').setup()
+      require('nvim-treesitter').install(parsers)
+
+      vim.api.nvim_create_autocmd('FileType', {
+        group = vim.api.nvim_create_augroup('user-treesitter', { clear = true }),
+        pattern = parsers,
+        desc = 'Enable Treesitter highlighting and indentation',
+        callback = function(event)
+          pcall(vim.treesitter.start, event.buf)
+          if not vim.tbl_contains({ 'proto', 'go', 'zig' }, vim.bo[event.buf].filetype) then
+            vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          end
+        end,
+      })
+    end,
   },
   {
     'nvim-treesitter/nvim-treesitter-context',
@@ -299,11 +300,48 @@ require('lazy').setup({
       'nvim-treesitter/nvim-treesitter',
     },
     event = { 'BufReadPost', 'BufNewFile' },
-    opts = {
-      max_lines = 2,
-      multiline_threshold = 1,
-      trim_scope = 'inner',
-    },
+    config = function()
+      local context = require('treesitter-context')
+      local enabled = true
+      local timer = assert(vim.uv.new_timer())
+
+      context.setup {
+        enable = false,
+        max_lines = 2,
+        multiline_threshold = 1,
+        trim_scope = 'inner',
+      }
+
+      local function update_after_movement()
+        timer:stop()
+        if context.enabled() then
+          context.disable()
+        end
+        if enabled then
+          timer:start(200, 0, vim.schedule_wrap(function()
+            context.enable()
+          end))
+        end
+      end
+
+      vim.api.nvim_create_autocmd('CursorMoved', {
+        group = vim.api.nvim_create_augroup('user-treesitter-context-debounce', { clear = true }),
+        desc = 'Update Treesitter context after cursor movement settles',
+        callback = update_after_movement,
+      })
+
+      mapn('<leader>tc', function()
+        enabled = not enabled
+        timer:stop()
+        if enabled then
+          update_after_movement()
+        else
+          context.disable()
+        end
+      end, '[T]oggle Treesitter [C]ontext')
+
+      update_after_movement()
+    end,
   },
   {
     'lewis6991/gitsigns.nvim',
@@ -378,7 +416,7 @@ require('lazy').setup({
   {
     'akinsho/toggleterm.nvim',
     version = '*',
-    cmd = { 'ToggleTerm', 'TermExec ' },
+    cmd = { 'ToggleTerm', 'TermExec' },
     opts = {
       shell = (jit.os == 'Windows' and 'powershell') or nil,
       size = function(term)
@@ -458,21 +496,8 @@ require('lazy').setup({
           lspmap('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
           lspmap('gt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
-          -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
-          ---@param client vim.lsp.Client
-          ---@param method vim.lsp.protocol.Method
-          ---@param bufnr? integer some lsp support methods only in specific files
-          ---@return boolean
-          local function client_supports_method(client, method, bufnr)
-            if vim.fn.has 'nvim-0.11' == 1 then
-              return client:supports_method(method, bufnr)
-            else
-              return client.supports_method(method, { bufnr = bufnr })
-            end
-          end
-
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             lspmap('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
@@ -561,7 +586,7 @@ require('lazy').setup({
 
       require('mason-lspconfig').setup {
         ensure_installed = vim.tbl_keys(servers),
-        automatic_installation = true,
+        automatic_enable = vim.tbl_keys(servers),
       }
     end,
   },
@@ -632,6 +657,7 @@ require('lazy').setup({
     'mfussenegger/nvim-dap',
     dependencies = {
       { 'rcarriga/nvim-dap-ui', dependencies = { 'nvim-neotest/nvim-nio' } },
+      'nvim-neotest/nvim-nio',
       'leoluz/nvim-dap-go',
       'theHamsta/nvim-dap-virtual-text',
     },
