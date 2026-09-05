@@ -13,7 +13,7 @@ vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
 
 vim.o.number = true
-vim.o.signcolumn = 'yes'
+vim.o.signcolumn = 'auto'
 vim.o.mouse = 'a'
 vim.o.tabstop = 2
 vim.o.shiftwidth = 2
@@ -75,6 +75,13 @@ mapn('<leader>wq', '<C-w>c', 'close cur window')
 mapn('<leader>wo', '<C-w>o', 'close other windows')
 mapn('<leader>ws', '<C-w>s', 'horizontal split')
 mapn('<leader>wv', '<C-w>v', 'vertical split')
+mapn('<leader>wd', function()
+  local diff_enabled = vim.iter(vim.api.nvim_tabpage_list_wins(0)):any(function(window)
+    return vim.wo[window].diff
+  end)
+
+  vim.cmd(diff_enabled and 'diffoff!' or 'windo diffthis')
+end, 'toggle window diff')
 
 mapn('<Esc>', '<cmd>nohlsearch<CR>')
 
@@ -178,6 +185,9 @@ require('lazy').setup({
         comments = false,
         operators = false,
         folds = false,
+      },
+      overrides = {
+        ["@lsp.type.variable.go"] = {},
       },
     },
   },
